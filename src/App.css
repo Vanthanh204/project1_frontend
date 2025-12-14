@@ -1,38 +1,97 @@
-.App {
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background: #ffffff;
+  width: 420px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  margin: 0;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.subtitle {
+  text-align: center;
+  color: #777;
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.input-group {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.input-group button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  background: #667eea;
   color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.App-link {
-  color: #61dafb;
+.input-group button:hover {
+  background: #5a67d8;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.status {
+  text-align: center;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.status.empty {
+  color: #999;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.todo-list li {
+  background: #f3f4f6;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.todo-list li:hover {
+  background: #e2e8f0;
 }

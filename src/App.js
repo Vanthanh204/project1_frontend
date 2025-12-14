@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import "./App.css";
 
 const API_URL = `${process.env.REACT_APP_API_URL}/api/todos`;
 
@@ -11,12 +12,7 @@ function App() {
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
-
-      if (Array.isArray(data)) {
-        setTodos(data);
-      } else {
-        setTodos([]);
-      }
+      setTodos(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error(err);
       setTodos([]);
@@ -39,33 +35,36 @@ function App() {
     });
 
     setTitle("");
-    loadTodos(); // reload sau khi thêm
+    loadTodos();
   };
 
   return (
-    <div style={{ padding: 40, fontFamily: "Arial" }}>
-      <h1>Todo App (Project 0)</h1>
+    <div className="app">
+      <div className="card">
+        <h1>📝 Todo App</h1>
+        <p className="subtitle">Project 0 – React + Node + MongoDB</p>
 
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Nhập công việc..."
-      />
-      <button onClick={addTodo} style={{ marginLeft: 10 }}>
-        Thêm
-      </button>
+        <div className="input-group">
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Nhập công việc..."
+          />
+          <button onClick={addTodo}>Thêm</button>
+        </div>
 
-      {loading && <p>Đang tải...</p>}
+        {loading && <p className="status">Đang tải dữ liệu...</p>}
 
-      {!loading && todos.length === 0 && (
-        <p>Chưa có công việc nào</p>
-      )}
+        {!loading && todos.length === 0 && (
+          <p className="status empty">Chưa có công việc nào 🚀</p>
+        )}
 
-      <ul>
-        {todos.map((t) => (
-          <li key={t._id}>{t.title}</li>
-        ))}
-      </ul>
+        <ul className="todo-list">
+          {todos.map((t) => (
+            <li key={t._id}>{t.title}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
