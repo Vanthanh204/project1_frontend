@@ -1,31 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 const API_URL = `${process.env.REACT_APP_API_URL}/api/todos`;
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [title, setTitle] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const loadTodos = async () => {
-  setLoading(true);
-  try {
-    const res = await fetch(API_URL);
-    const data = await res.json();
+  const loadTodos = useCallback(async () => {
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
 
-    // 🔥 FIX QUAN TRỌNG
-    if (Array.isArray(data)) {
-      setTodos(data);
-    } else {
-      setTodos([]); // fallback an toàn
-      console.error("API did not return array:", data);
+      if (Array.isArray(data)) {
+        setTodos(data);
+      } else {
+        setTodos([]);
+      }
+    } catch (err) {
+      console.error(err);
+      setTodos([]);
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    console.error(err);
-    setTodos([]);
-  }
-  setLoading(false);
-};
+  }, []);
+
+  useEffect(() => {
+    loadTodos();
+  }, [loadTodos]);
+
   const addTodo = async () => {
     if (!title.trim()) return;
 
@@ -36,7 +39,7 @@ function App() {
     });
 
     setTitle("");
-    loadTodos();
+    loadTodos(); // reload sau khi thêm
   };
 
   return (
@@ -53,6 +56,10 @@ function App() {
       </button>
 
       {loading && <p>Đang tải...</p>}
+
+      {!loading && todos.length === 0 && (
+        <p>Chưa có công việc nào</p>
+      )}
 
       <ul>
         {todos.map((t) => (
