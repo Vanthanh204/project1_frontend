@@ -8,13 +8,13 @@ function App() {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(true);
 
+  // 👉 1. loadTodos
   const loadTodos = useCallback(async () => {
     try {
       const res = await fetch(API_URL);
       const data = await res.json();
       setTodos(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error(err);
       setTodos([]);
     } finally {
       setLoading(false);
@@ -25,6 +25,7 @@ function App() {
     loadTodos();
   }, [loadTodos]);
 
+  // 👉 2. addTodo
   const addTodo = async () => {
     if (!title.trim()) return;
 
@@ -38,11 +39,19 @@ function App() {
     loadTodos();
   };
 
+  // 👉 3. deleteTodo (THÊM NGAY DƯỚI addTodo)
+  const deleteTodo = async (id) => {
+    await fetch(`${API_URL}/${id}`, {
+      method: "DELETE"
+    });
+    loadTodos();
+  };
+
+  // 👉 JSX RETURN
   return (
     <div className="app">
       <div className="card">
         <h1>📝 Todo App</h1>
-        <p className="subtitle">Project 0 – React + Node + MongoDB</p>
 
         <div className="input-group">
           <input
@@ -53,15 +62,19 @@ function App() {
           <button onClick={addTodo}>Thêm</button>
         </div>
 
-        {loading && <p className="status">Đang tải dữ liệu...</p>}
-
-        {!loading && todos.length === 0 && (
-          <p className="status empty">Chưa có công việc nào 🚀</p>
-        )}
+        {loading && <p>Đang tải...</p>}
 
         <ul className="todo-list">
           {todos.map((t) => (
-            <li key={t._id}>{t.title}</li>
+            <li key={t._id} className="todo-item">
+              <span>{t.title}</span>
+              <button
+                className="delete-btn"
+                onClick={() => deleteTodo(t._id)}
+              >
+                ✖
+              </button>
+            </li>
           ))}
         </ul>
       </div>
