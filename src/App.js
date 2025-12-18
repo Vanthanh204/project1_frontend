@@ -52,6 +52,7 @@ function App() {
     <div className="app">
       <div className="card">
         <h1>📝 Todo App</h1>
+        <h1>Bai Ktra _ DH52201450 _ ca</h1>
 
         <div className="input-group">
           <input
